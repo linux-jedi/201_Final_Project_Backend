@@ -1,11 +1,5 @@
 package controllers;
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.OutputStream;
-
-import org.apache.tomcat.util.http.fileupload.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -19,6 +13,7 @@ import org.springframework.web.multipart.MultipartFile;
 import exceptions.BathroomNotFoundException;
 import models.Bathroom;
 import models.Photo;
+import storage.StorageService;
 
 @RestController
 @RequestMapping("/bathroom")
@@ -60,19 +55,9 @@ public class BathroomController {
 			@RequestParam("file") MultipartFile file
 			) {
 		
-		String newFileName = "";
-		File newFile = new File(newFileName);
-		
-		try {
-			OutputStream fos = new FileOutputStream(newFile);
-			IOUtils.copy(file.getInputStream(), fos);
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		
-		storageService.store(newFile);
-		return photoRepository.save(photo);
+		Photo newPhotoEntry = photoRepository.save(photo);
+		storageService.store(file, newPhotoEntry.getId());
+		return newPhotoEntry;
 	}
 	
 	@PostMapping
