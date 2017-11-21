@@ -12,6 +12,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import exceptions.BathroomNotFoundException;
 import models.Bathroom;
+import models.Comment;
 import models.Photo;
 import storage.StorageService;
 
@@ -22,12 +23,18 @@ public class BathroomController {
 	
 	private final PhotoRepository photoRepository;
 	
+	private final CommentRepository commentRepository;
+	
 	private final StorageService storageService;
 	
 	@Autowired
-	public BathroomController(BathroomRepository bathroomRepository, PhotoRepository photoRepository, StorageService storageService) {
+	public BathroomController(BathroomRepository bathroomRepository,
+			PhotoRepository photoRepository,
+			StorageService storageService,
+			CommentRepository commentRepository) {
 		this.bathroomRepository = bathroomRepository;
 		this.photoRepository = photoRepository;
+		this.commentRepository = commentRepository;
 		this.storageService = storageService;
 	}
 	
@@ -56,8 +63,25 @@ public class BathroomController {
 			) {
 		
 		Photo newPhotoEntry = photoRepository.save(photo);
+		newPhotoEntry.setUrl("/photo/" + newPhotoEntry.getId() + ".photo");
+		photoRepository.save(photo);
+		
 		storageService.store(file, newPhotoEntry.getId());
 		return newPhotoEntry;
+	}
+	
+	@PostMapping(value = "/{bathroomId}/comment")
+	Comment addComment(@RequestBody Comment comment, @PathVariable Integer bathroomId) {
+		this.validateBathroomExists(bathroomId);
+		
+		return commentRepository.save(comment);
+	}
+	
+	@GetMapping(value = "/{bathroomId}/comment")
+	Iterable<Comment> getComments(@PathVariable Integer bathroomId) {
+		this.validateBathroomExists(bathroomId);
+		
+		return this.commentRepository.findByBathroomId(bathroomId);
 	}
 	
 	@PostMapping

@@ -1,7 +1,5 @@
 package models;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -16,51 +14,99 @@ public class Bathroom {
 	
 	private String name;
 	
-	private String description;
+	private String address;
 	
-	private Integer votes;
+	private Integer points;
 	
-	private String location_description;
+	private boolean hasDisabilityAccomodations;
+    
+	private boolean requiresKey;
+    
+	private double longitude;
+    
+	private double latitude;
+
+    private boolean upArrowSelected;
+    
+    private boolean downArrowSelected;
 
 	public Integer getId() {
 		return id;
-	}
-
-	public String getName() {
-		return name;
-	}
-
-	public String getDescription() {
-		return description;
-	}
-
-	public Integer getVotes() {
-		return votes;
-	}
-
-	public String getLocation_description() {
-		return location_description;
 	}
 
 	public void setId(Integer id) {
 		this.id = id;
 	}
 
+	public String getName() {
+		return name;
+	}
+
 	public void setName(String name) {
 		this.name = name;
 	}
 
-	public void setDescription(String description) {
-		this.description = description;
+	public String getAddress() {
+		return address;
 	}
 
-	public void setVotes(Integer votes) {
-		this.votes = votes;
+	public void setAddress(String address) {
+		this.address = address;
 	}
 
-	public void setLocation_description(String location_description) {
-		this.location_description = location_description;
+	public Integer getPoints() {
+		return points;
 	}
-	
-	
+
+	public void setPoints(Integer points) {
+		this.points = points;
+	}
+
+	public boolean isHasDisabilityAccomodations() {
+		return hasDisabilityAccomodations;
+	}
+
+	public void setHasDisabilityAccomodations(boolean hasDisabilityAccomodations) {
+		this.hasDisabilityAccomodations = hasDisabilityAccomodations;
+	}
+
+	public boolean isRequiresKey() {
+		return requiresKey;
+	}
+
+	public void setRequiresKey(boolean requiresKey) {
+		this.requiresKey = requiresKey;
+	}
+
+	public double getLongitude() {
+		return longitude;
+	}
+
+	public void setLongitude(double longitude) {
+		this.longitude = longitude;
+	}
+
+	public double getLatitude() {
+		return latitude;
+	}
+
+	public void setLatitude(double latitude) {
+		this.latitude = latitude;
+	}
+
+	public boolean isUpArrowSelected() {
+		return upArrowSelected;
+	}
+
+	public void setUpArrowSelected(boolean upArrowSelected) {
+		this.upArrowSelected = upArrowSelected;
+	}
+
+	public boolean isDownArrowSelected() {
+		return downArrowSelected;
+	}
+
+	public void setDownArrowSelected(boolean downArrowSelected) {
+		this.downArrowSelected = downArrowSelected;
+	}
 }
